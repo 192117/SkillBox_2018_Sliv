@@ -9,9 +9,15 @@
 
 
 def log_errors(func):
-    pass
-    # TODO здесь ваш код
-# Пока нет идей.
+    def inners(args):
+        try:
+            return func(args)
+        except Exception as ex:
+            with open("function_errors.log", "a") as file:
+                file.write(f"{func} --- {args} --- {type(ex)} --- {ex.args}")
+            raise
+    return inners
+
 
 
 # Проверить работу на следующих функциях

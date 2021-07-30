@@ -14,4 +14,30 @@
 #
 # [2018-05-17 01:57] 1234
 
-# Пока нет идей.
+
+class Parser:
+
+    def __init__(self, file_name):
+        self.file_name = file_name
+
+    def open_parser(self):
+        count = 0
+        time = "0"
+        with open(self.file_name, "r", encoding="cp1251") as file:
+            for line in file:
+                line = line[:-1]
+                if line.split(" ")[2] == "NOK":
+                    if time != line.split(" ")[1][:5]:
+                        if time != "0":
+                            readlin = line.split(" ")[0] + " " + str(time) + "] " + str(count)
+                            yield readlin
+                        time = line.split(" ")[1][:5]
+                        count = 1
+                    else:
+                        count += 1
+
+
+parser = Parser(file_name="events.txt").open_parser()
+print(parser)
+for value in parser:
+    print(value)
