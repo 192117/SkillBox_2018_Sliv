@@ -9,12 +9,12 @@
 
 
 def log_errors(func):
-    def inners(args):
+    def inners(*args, **kwargs):
         try:
-            return func(args)
+            return func(*args, **kwargs)
         except Exception as ex:
-            with open("function_errors.log", "a") as file:
-                file.write(f"{func} --- {args} --- {type(ex)} --- {ex.args}")
+            with open("function_errors.log", "a", encoding="utf8") as file:
+                file.write(f"{func} --- {args or kwargs} --- {type(ex)} --- {ex.args}" + "\n")
             raise
     return inners
 
