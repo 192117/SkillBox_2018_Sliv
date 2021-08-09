@@ -60,7 +60,7 @@ kolya_catch = defaultdict(int)
 fishing(name='Коля', worms=10, catch=kolya_catch)
 
 thread.join()
-for name, catch in (('Вася', vasya_catch), ('Вася', kolya_catch)):
+for name, catch in (('Вася', vasya_catch), ('Коля', kolya_catch)):
     print(f'Итого рыбак {name} поймал:')
     for fish, count in catch.items():
         print(f'    {fish} - {count}')
