@@ -75,13 +75,27 @@ class Volatility:
         self.traders = dict()
         self.traders_zero = dict()
 
-    def trader_sort_volat(self, trader):
-        sort_traders = sorted(list(trader.items()), key=lambda x: x[1], reverse=True)
-        return sort_traders[:3], sort_traders[-3:]
+    def trader_sort_volat(self, trader, reverse=True):
+        sort_traders = sorted(list(trader.items()), key=lambda x: x[1], reverse=reverse)
+        return sort_traders[:3]
 
     def trader_sort_without(self, trader):
         sort_traders = sorted(list(trader.items()), key=lambda x: x[0], reverse=False)
         return sort_traders
+
+    def see_result(self):
+        print("Максимальная волатильность:")
+        for value in self.trader_sort_volat(self.traders):
+            print(value[0], "--", value[1], "%")
+        print("Минимальная волатильность:")
+        for value in self.trader_sort_volat(self.traders, reverse=False):
+            print(value[0], "--", value[1], "%")
+        print("Нулевая волатильность:")
+        rows = ""
+        for value in self.trader_sort_without(self.traders_zero):
+            rows += value[0] + ", "
+        print(rows)
+
 
     def run(self):
         for file_directory in os.walk("D:\\Users\\Kokoc\\PycharmProjects\\SkillBox_2018_Sliv\\lesson_012\\trades"):
@@ -107,8 +121,7 @@ class Volatility:
                         self.traders[secid] = float(format(volatility, ".2f"))
                     else:
                         self.traders_zero[secid] = float(format(volatility, ".2f"))
-        print(self.trader_sort_volat(self.traders))
-        print(self.trader_sort_without(self.traders_zero))
+        self.see_result()
 
 
 voland = Volatility()
