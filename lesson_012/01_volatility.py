@@ -74,14 +74,18 @@ class Volatility:
     def __init__(self):
         self.traders = dict()
         self.traders_zero = dict()
+        self.data = list()
+
 
     def trader_sort_volat(self, trader, reverse=True):
         sort_traders = sorted(list(trader.items()), key=lambda x: x[1], reverse=reverse)
         return sort_traders[:3]
 
+
     def trader_sort_without(self, trader):
         sort_traders = sorted(list(trader.items()), key=lambda x: x[0], reverse=False)
         return sort_traders
+
 
     def see_result(self):
         print("Максимальная волатильность:")
@@ -97,34 +101,40 @@ class Volatility:
         print(rows)
 
 
-    def run(self):
+    def make_data(self):
         for file_directory in os.walk("D:\\Users\\Kokoc\\PycharmProjects\\SkillBox_2018_Sliv\\lesson_012\\trades"):
             os.chdir("D:\\Users\\Kokoc\\PycharmProjects\\SkillBox_2018_Sliv\\lesson_012\\trades")
             for traders_file in file_directory[2]:
-                with open(traders_file) as file:
-                    file_csv = csv.reader(file, delimiter=",")
-                    max_price = 0
-                    min_price = 0
-                    next(file)
-                    for row in file_csv:
-                        secid = row[0]
-                        price = float(row[2])
-                        if price > max_price:
-                            if min_price == 0:
-                                min_price = price
-                            max_price = price
-                        elif price < min_price:
+                self.data.append(traders_file)
+
+    def run(self):
+        os.chdir("D:\\Users\\Kokoc\\PycharmProjects\\SkillBox_2018_Sliv\\lesson_012\\trades")
+        for traders_file in self.data:
+            with open(traders_file) as file:
+                file_csv = csv.reader(file, delimiter=",")
+                max_price = 0
+                min_price = 0
+                next(file)
+                for row in file_csv:
+                    secid = row[0]
+                    price = float(row[2])
+                    if price > max_price:
+                        if min_price == 0:
                             min_price = price
-                    medium_price = (max_price + min_price) / 2
-                    volatility = ((max_price - min_price) / medium_price) * 100
-                    if volatility > 0.0:
-                        self.traders[secid] = float(format(volatility, ".2f"))
-                    else:
-                        self.traders_zero[secid] = float(format(volatility, ".2f"))
+                        max_price = price
+                    elif price < min_price:
+                        min_price = price
+                medium_price = (max_price + min_price) / 2
+                volatility = ((max_price - min_price) / medium_price) * 100
+                if volatility > 0.0:
+                    self.traders[secid] = float(format(volatility, ".2f"))
+                else:
+                    self.traders_zero[secid] = float(format(volatility, ".2f"))
         self.see_result()
 
 
 voland = Volatility()
+voland.make_data()
 voland.run()
 
 # data = ["TICKER_AFH9.csv", "TICKER_AFM9.csv", "TICKER_ALH9.csv", "TICKER_ALM9.csv", "TICKER_VIH9.csv"]
