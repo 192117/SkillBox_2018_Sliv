@@ -24,6 +24,7 @@
 import threading
 import os
 import csv
+from utils import time_track
 
 def parser_directory(directorys, data):
     for file_directorys in os.walk(directorys):
@@ -95,7 +96,8 @@ class Volatility(threading.Thread):
                     self.data_trader_zero[secid] = float(format(volatility, ".2f"))
                 self.traders_zero_lock.release()
 
-if __name__ == "__main__":
+@time_track
+def main():
     os.chdir("D:\\Users\\Kokoc\\PycharmProjects\\SkillBox_2018_Sliv\\lesson_012\\trades")
     base_data = list()
     parser_directory("D:\\Users\\Kokoc\\PycharmProjects\\SkillBox_2018_Sliv\\lesson_012\\trades", base_data)
@@ -112,3 +114,6 @@ if __name__ == "__main__":
         vol.join()
 
     see_result(tr, tr_zero)
+
+if __name__ == "__main__":
+    main()

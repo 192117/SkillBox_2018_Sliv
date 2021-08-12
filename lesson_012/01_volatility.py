@@ -67,7 +67,7 @@
 #
 import os
 import csv
-
+from utils import time_track
 
 class Volatility:
 
@@ -132,10 +132,14 @@ class Volatility:
                     self.traders_zero[secid] = float(format(volatility, ".2f"))
         self.see_result()
 
+@time_track
+def main():
+    voland = Volatility()
+    voland.make_data()
+    voland.run()
 
-voland = Volatility()
-voland.make_data()
-voland.run()
+if __name__=="__main__":
+    main()
 
 # data = ["TICKER_AFH9.csv", "TICKER_AFM9.csv", "TICKER_ALH9.csv", "TICKER_ALM9.csv", "TICKER_VIH9.csv"]
 # os.chdir("D:\\Users\\Kokoc\\PycharmProjects\\SkillBox_2018_Sliv\\lesson_012\\trades")
