@@ -8,6 +8,11 @@
 # Пример заполнения lesson_013/images/ticket_sample.png
 # Подходящий шрифт искать на сайте ofont.ru
 
+import os
+from PIL import Image, ImageDraw, ImageFont, ImageColor
+
+im = Image.open("D:\\Users\\Kokoc\\PycharmProjects\\SkillBox_2018_Sliv\\lesson_013\\images\\ticket_template.png")
+print(im.size)
 def make_ticket(fio, from_, to, date):
     # TODO здесь ваш код
     pass
