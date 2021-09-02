@@ -9,10 +9,9 @@
 # Подходящий шрифт искать на сайте ofont.ru
 
 import os
-from PIL import Image, ImageDraw, ImageFont, ImageColor
+from PIL import Image, ImageDraw, ImageFont
 
-
-def make_ticket(fio, from_, to, date):
+def make_ticket(fio, from_, to, date, file_name):
     picture = Image.open("D:\\Users\\Kokoc\\PycharmProjects\\SkillBox_2018_Sliv\\lesson_013\\images\\ticket_template.png")
     imdraw = ImageDraw.Draw(picture)
     font = ImageFont.truetype("arial.ttf", size=18)
